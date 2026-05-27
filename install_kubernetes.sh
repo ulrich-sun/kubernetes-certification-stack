@@ -18,11 +18,13 @@ sudo apt -y install ansible git
 
 
 # Installer le rôle depuis Galaxy
-ansible-galaxy remove kubernetes
+ansible-galaxy remove kubernetes || true 
 ansible-galaxy install -r /vagrant/roles/requirements.yaml
 
 export K8S_MASTER_IP=$MASTER_IP
+NODE_IP=$(hostname -I | awk '{print $2}')
 
+echo "KUBELET_EXTRA_ARGS=--node-ip=$NODE_IP" | sudo tee /etc/default/kubelet
 # Lancer le playbook
 if [ "$1" == "master" ]; then
     ansible-playbook /vagrant/install_kubernetes.yaml \

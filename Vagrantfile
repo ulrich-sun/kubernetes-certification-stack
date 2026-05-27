@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-
+  #config.vm.boot_timeout = 400
   # Nombre de workers
   workers = 1
   ram_worker = 2048
@@ -10,8 +10,8 @@ Vagrant.configure("2") do |config|
 
   # Master
   config.vm.define "master" do |master|
-    master.vm.box = "eazytraining/ubuntu24"
-    master.vm.box_version = "1.0"
+    master.vm.box = "ubuntu/jammy64"
+    #master.vm.box_version = "1.0"
     master.vm.network "private_network", ip: "192.168.99.10"
     master.vm.hostname = "master"
 
@@ -30,8 +30,8 @@ Vagrant.configure("2") do |config|
   # Workers
   (1..workers).each do |i|
     config.vm.define "worker#{i}" do |worker|
-      worker.vm.box = "eazytraining/ubuntu24"
-      worker.vm.box_version = "1.0"
+      worker.vm.box = "ubuntu/jammy64"
+      #worker.vm.box_version = "1.0"
       worker.vm.network "private_network", ip: "192.168.99.1#{i}"
       worker.vm.hostname = "worker#{i}"
 
